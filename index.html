@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Declaração de codificação de caracteres para UTF-8 -->
+  <meta charset="UTF-8">
+  <!-- Título da página -->
+  <title>CodePen - Word Clock (Dark Mode & Light Mode)</title>
+  <!-- Ajuste de viewport para dispositivos móveis -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- Link para importar a fonte DM Sans do Google Fonts -->
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=DM+Sans:wght@200;400;600&amp;display=swap'>
+  <!-- Link para o arquivo de estilo local -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+
+  <!-- Contêiner do relógio -->
+
+<!--<div class="clock">
+    <strong class="clock__word clock__word--bold"></strong> <!-- Hora em negrito -->
+<!--<span class="clock__word"></span> <!-- Minuto em texto -->
+<!--    <strong class="clock__word clock__word--bold"></strong> <!-- Adicional em negrito -->
+<!--<strong class="clock__word clock__word--bold"></strong> <!-- Adicional em negrito -->
+<!--</div>-->
+
+
+  <div class="clock">
+    <!-- Palavras que compõem o relógio em texto -->
+    <strong class="clock__word clock__word--bold"></strong> <!-- Parte do dia -->
+    <span class="clock__word"></span> <!-- Parte do mês -->
+    <strong class="clock__word clock__word--bold"></strong> <!-- Parte do ano -->
+  </div>
+  
+
+  <!-- Botão para alternar entre temas (claro e escuro) -->
+  <div id="setting-wrapper">
+    <button id="theme-btn"><i class="fa-solid fa-circle-half-stroke"></i></button>
+  </div>
+  <!-- Link para o arquivo JavaScript local -->
+  <script src="./script.js"></script>
+</body>
+</html>

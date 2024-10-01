@@ -1,0 +1,107 @@
+/* Reseta estilos básicos como margem, padding e bordas */
+* {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/* Variáveis CSS para cores e tempo de transição */
+:root {
+	--hue: 223; /* Definição de matiz de cor */
+	--bg: #FFFFFF; /* Cor de fundo padrão */
+	--fg: #191919; /* Cor do texto padrão */
+	--primary: hsl(var(--hue), 90%, 50%); /* Cor principal */
+	--trans-dur: 0.3s; /* Duração da transição */
+	/* Tamanho da fonte é responsivo ao tamanho da tela */
+	font-size: calc(20px + (60 - 20) * (100vw - 320px) / (2560 - 320));
+}
+
+/* Estilos básicos do corpo */
+body {
+	background-color: var(--bg); /* Cor de fundo */
+	color: var(--fg); /* Cor do texto */
+	display: flex; /* Layout flexível */
+	font: 1em/1.5 "DM Sans", sans-serif; /* Fonte e espaçamento */
+	height: 100vh; /* Altura total da tela */
+	transition: background-color var(--trans-dur), color var(--trans-dur); /* Transições suaves */
+}
+
+/* Estilos do contêiner do relógio */
+.clock {
+	margin: auto;
+	text-align: center;
+}
+
+/* Estilos das palavras do relógio */
+.clock__word {
+	display: inline-block;
+	font-weight: 200; /* Peso da fonte leve */
+}
+
+/* Oculta palavras vazias */
+.clock__word:empty {
+	display: none;
+}
+
+/* Palavras em negrito */
+.clock__word--bold {
+	font-weight: 600;
+}
+
+/* Animação para palavras que aparecem */
+.clock__word--fade-fly-in {
+	animation: fade-fly-in 0.6s cubic-bezier(0.65,0,0.35,1);
+}
+
+/* Tema escuro baseado na preferência do sistema */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: hsl(var(--hue), 10%, 10%); /* Fundo mais escuro */
+		--fg: hsl(var(--hue), 10%, 90%); /* Texto mais claro */
+	}
+}
+
+/* Definição da animação */
+@keyframes fade-fly-in {
+	from { opacity: 0; transform: translateY(100%); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos para o tema escuro */
+body.black-theme {
+	color: #191919;
+	background-color: #FFFFFF;
+}
+
+/* Estilos para o tema claro */
+body.white-theme {
+	color: #FFFFFF;
+	background-color: #191919;
+}
+
+/* Estilos para o botão de alternar tema */
+#setting-wrapper {
+	color: inherit;
+	background-color: transparent;
+	border: none;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	transition: opacity 0.3s ease; /* Transição suave */
+	opacity: 0;
+}
+
+/* O botão aparece quando o corpo é interagido */
+body:hover #setting-wrapper {
+	opacity: 1;
+}
+
+/* Estilo dos botões */
+#switch-btn, #theme-btn, #font-btn {
+	font-family: Karla; /* Fonte Karla */
+	color: inherit;
+	background-color: transparent;
+	border: none;
+	cursor: pointer; /* Muda o cursor ao passar por cima */
+}
