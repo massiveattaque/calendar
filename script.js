@@ -77,3 +77,24 @@ class Clock30 {
 		this.dateUpdateLoop = setTimeout(this.dateUpdate.bind(this), 1e3 * 60 * 60); // Atualiza a data uma vez por dia
 	}
 }
+
+// Alternância de tema (escuro/claro)
+document.addEventListener('DOMContentLoaded', () => {
+	const themeBtn = document.getElementById('theme-btn');
+	const currentTheme = localStorage.getItem('theme') || 'white-theme'; // Define tema padrão
+
+	document.body.classList.add(currentTheme); // Aplica o tema atual
+
+	themeBtn.addEventListener('click', () => {
+		// Alterna entre os temas
+		if (document.body.classList.contains('white-theme')) {
+			document.body.classList.remove('white-theme');
+			document.body.classList.add('black-theme');
+			localStorage.setItem('theme', 'black-theme'); // Salva a escolha no armazenamento local
+		} else {
+			document.body.classList.remove('black-theme');
+			document.body.classList.add('white-theme');
+			localStorage.setItem('theme', 'white-theme'); // Salva a escolha no armazenamento local
+		}
+	});
+});
