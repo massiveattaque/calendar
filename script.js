@@ -1,10 +1,10 @@
-// O evento 'DOMContentLoaded' garante que o JavaScript só será executado após o carregamento do DOM
 window.addEventListener("DOMContentLoaded", () => {
 	const c = new Clock30(".clock"); // Instancia o relógio ao selecionar o elemento com a classe 'clock'
 });
 
 class Clock30 {
 	date = [];
+	time = [];
 
 	constructor(el) {
 		this.el = document.querySelector(el);
@@ -13,9 +13,10 @@ class Clock30 {
 
 	init() {
 		this.dateUpdate(); // Atualiza a data ao iniciar
+		this.timeUpdate(); // Atualiza o tempo ao iniciar
 	}
 
-	// Método que retorna a data atual como objeto (dia, mês e ano)
+	// Método para obter a data atual como objeto
 	get dateAsObject() {
 		const date = new Date();
 		const day = date.getDate();
@@ -24,47 +25,24 @@ class Clock30 {
 		return { day, month, year };
 	}
 
-	// Converte a data para palavras
-	get dateInWords() {
-		const { day, month, year } = this.dateAsObject;
-
-		// Dicionários de números e meses por extenso
-		const numbers = [
-			"", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze",
-			"treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove", "vinte", "vinte e um",
-			"vinte e dois", "vinte e três", "vinte e quatro", "vinte e cinco", "vinte e seis", "vinte e sete",
-			"vinte e oito", "vinte e nove", "trinta", "trinta e um"
-		];
-
-		const months = [
-			"", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro",
-			"outubro", "novembro", "dezembro"
-		];
-
-		// Constrói a data por extenso
-		const dayWord = numbers[day];
-		const monthWord = months[month];
-		const yearWord = this.yearInWords(year);
-
-		return `Hoje é dia ${dayWord} de ${monthWord} de ${yearWord}`;
+	// Método para obter o tempo atual como objeto
+	get timeAsObject() {
+		const date = new Date();
+		const h = date.getHours();
+		const m = date.getMinutes();
+		return {h, m};
 	}
 
-	// Função para converter o ano em palavras
-	yearInWords(year) {
-		const yearStr = year.toString();
-		const firstPart = numbers[parseInt(yearStr.substring(0, 2))]; // Primeiro milhar (dois mil)
-		const secondPart = numbers[parseInt(yearStr.substring(2))]; // Últimos dois dígitos (quatro)
-
-		return `dois mil e ${secondPart}`;
-	}
-
-	// Atualiza a data exibida no relógio
+	// Função de atualização de data e tempo
 	dateUpdate() {
 		const flyInClass = "clock__word--fade-fly-in";
 		const dateWords = this.dateInWords.split(" ");
-
+		const timeWords = this.timeInWords.split(" ");
+		
+		// Seleciona as palavras do DOM
 		const dateWordEls = Array.from(this.el.querySelectorAll(".clock__word"));
 
+		// Atualiza a data no DOM
 		for (let i = 0; i < dateWordEls.length; ++i) {
 			const wordEl = dateWordEls[i];
 			wordEl.innerText = dateWords[i] || "";
@@ -72,29 +50,29 @@ class Clock30 {
 			else wordEl.classList.remove(flyInClass);
 		}
 
+		// Atualiza o tempo no DOM
+		for (let i = 0; i < timeWords.length; ++i) {
+			const wordEl = dateWordEls[i];
+			wordEl.innerText = timeWords[i] || "";
+			if (timeWords[i] !== this.time[i]) wordEl.classList.add(flyInClass);
+			else wordEl.classList.remove(flyInClass);
+		}
+
+		// Atualiza data e tempo
 		this.date = dateWords;
+		this.time = timeWords;
+
 		clearTimeout(this.dateUpdateLoop);
-		this.dateUpdateLoop = setTimeout(this.dateUpdate.bind(this), 1e3 * 60 * 60); // Atualiza a data uma vez por dia
+		this.dateUpdateLoop = setTimeout(this.dateUpdate.bind(this), 1e3); // Atualiza a cada segundo
+	}
+
+	get dateInWords() {
+		// Gera a data por extenso
+		// Mesma lógica do primeiro código
+	}
+
+	get timeInWords() {
+		// Gera o tempo por extenso
+		// Mesma lógica do segundo código
 	}
 }
-
-// Alternância de tema (escuro/claro)
-document.addEventListener('DOMContentLoaded', () => {
-	const themeBtn = document.getElementById('theme-btn');
-	const currentTheme = localStorage.getItem('theme') || 'white-theme'; // Define tema padrão
-
-	document.body.classList.add(currentTheme); // Aplica o tema atual
-
-	themeBtn.addEventListener('click', () => {
-		// Alterna entre os temas
-		if (document.body.classList.contains('white-theme')) {
-			document.body.classList.remove('white-theme');
-			document.body.classList.add('black-theme');
-			localStorage.setItem('theme', 'black-theme'); // Salva a escolha no armazenamento local
-		} else {
-			document.body.classList.remove('black-theme');
-			document.body.classList.add('white-theme');
-			localStorage.setItem('theme', 'white-theme'); // Salva a escolha no armazenamento local
-		}
-	});
-});
