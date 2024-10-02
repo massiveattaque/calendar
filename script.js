@@ -32,37 +32,47 @@ window.addEventListener("DOMContentLoaded", () => {
 	  // Dicionário de dias e meses em palavras
 	  const days = {
 		1: "primeiro", 2: "dois", 3: "três", 4: "quatro", 5: "cinco", 6: "seis",
-		7: "sete", 8: "oito", 9: "nove", 10: "dez", 11: "onze", 12: "doze",
-		13: "treze", 14: "quatorze", 15: "quinze", 16: "dezesseis", 17: "dezessete",
-		18: "dezoito", 19: "dezenove", 20: "vinte", 21: "vinte e um",
-		22: "vinte e dois", 23: "vinte e três", 24: "vinte e quatro", 25: "vinte e cinco",
-		26: "vinte e seis", 27: "vinte e sete", 28: "vinte e oito", 29: "vinte e nove",
+		7: "sete", 8: "oito", 9: "nove", 10: "dez", 11: "onze", 12: "doze", 
+		13: "treze", 14: "quatorze", 15: "quinze", 16: "dezesseis", 17: "dezessete", 
+		18: "dezoito", 19: "dezenove", 20: "vinte", 21: "vinte e um", 
+		22: "vinte e dois", 23: "vinte e três", 24: "vinte e quatro", 25: "vinte e cinco", 
+		26: "vinte e seis", 27: "vinte e sete", 28: "vinte e oito", 29: "vinte e nove", 
 		30: "trinta", 31: "trinta e um"
 	  };
   
 	  const months = [
-		"janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
+		"janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", 
 		"agosto", "setembro", "outubro", "novembro", "dezembro"
 	  ];
   
-	  // Converte o ano em palavras
-	  const yearInWords = `dois mil e ${year % 100 === 0 ? "cem" : this.convertYearToWords(year % 100)}`;
+	  // Converte o ano em palavras (dois mil e 4)
+	  const yearInWords = this.convertYearToWords(year);
   
 	  return `Hoje é dia ${days[day]} de ${months[month]} de ${yearInWords}`;
 	}
   
-	// Converte o ano em palavras
+	// Função para converter o ano em palavras
 	convertYearToWords(year) {
-	  const numbers = {
-		1: "um", 2: "dois", 3: "três", 4: "quatro", 5: "cinco", 6: "seis",
-		7: "sete", 8: "oito", 9: "nove", 10: "dez", 11: "onze", 12: "doze",
-		13: "treze", 14: "quatorze", 15: "quinze", 16: "dezesseis", 17: "dezessete",
-		18: "dezoito", 19: "dezenove", 20: "vinte"
-	  };
+	  const thousands = Math.floor(year / 1000);
+	  const hundreds = Math.floor((year % 1000) / 100);
+	  const tens = Math.floor((year % 100) / 10);
+	  const units = year % 10;
   
-	  if (year <= 20) return numbers[year];
-	  if (year > 20 && year < 30) return "vinte e " + numbers[year - 20];
-	  return "";
+	  const words = [];
+  
+	  if (thousands === 2) words.push("dois mil");
+	  // Para o ano 2024, adiciona "vinte e quatro" ao invés de "quatro"
+	  if (hundreds === 0 && tens === 0 && units === 0) return "dois mil"; // para anos exatos como 2000
+	  if (hundreds === 0 && tens === 0) words.push(units === 1 ? "um" : units === 2 ? "dois" : units === 3 ? "três" : units === 4 ? "quatro" : units === 5 ? "cinco" : units === 6 ? "seis" : units === 7 ? "sete" : units === 8 ? "oito" : units === 9 ? "nove" : "");
+  
+	  if (tens === 2) words.push("vinte");
+	  else if (tens === 3) words.push("trinta");
+  
+	  if (tens > 1) {
+		words.push(units === 0 ? "e" : "e " + (units === 1 ? "um" : units === 2 ? "dois" : units === 3 ? "três" : units === 4 ? "quatro" : units === 5 ? "cinco" : units === 6 ? "seis" : units === 7 ? "sete" : units === 8 ? "oito" : units === 9 ? "nove" : ""));
+	  }
+  
+	  return words.join(" ");
 	}
   
 	// Atualiza a data exibida
