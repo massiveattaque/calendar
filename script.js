@@ -1,57 +1,62 @@
-// Evento 'DOMContentLoaded' garante que o JavaScript só será executado após o carregamento do DOM
+// 'DOMContentLoaded' event ensures that the JavaScript runs after the DOM has loaded
 window.addEventListener("DOMContentLoaded", () => {
-	const calendar = new Calendar(".clock"); // Instancia o calendário ao selecionar o elemento com a classe 'clock'
+	const calendar = new Calendar(".clock"); // Instantiate the calendar by selecting the element with the 'clock' class
   });
   
   class Calendar {
-	// Inicializa um array vazio para armazenar a data
+	// Initializes an empty array to store the date
 	date = [];
   
 	constructor(el) {
-	  this.el = document.querySelector(el); // Seleciona o elemento do DOM baseado no seletor passado
-	  this.init(); // Chama o método inicializador
+	  this.el = document.querySelector(el); // Selects the DOM element based on the passed selector
+	  this.init(); // Calls the initializer method
 	}
   
 	init() {
-	  this.dateUpdate(); // Atualiza a data ao iniciar
+	  this.dateUpdate(); // Updates the date on startup
 	}
   
-	// Método que retorna a data atual como objeto (dia, mês e ano)
+	// Method that returns the current date as an object (day, month, year)
 	get dateAsObject() {
 	  const date = new Date();
 	  const day = date.getDate();
-	  const month = date.getMonth(); // 0 = Janeiro
+	  const month = date.getMonth(); // 0 = January
 	  const year = date.getFullYear();
-	  return { day, month, year };
+	  const weekday = date.getDay(); // 0 = Sunday
+	  return { day, month, year, weekday };
 	}
   
-	// Converte a data em palavras
+	// Converts the date to words
 	get dateInWords() {
-	  const { day, month, year } = this.dateAsObject;
+	  const { day, month, year, weekday } = this.dateAsObject;
   
-	  // Dicionário de dias e meses em palavras
+	  // Dictionary of days of the week, days and months in words
+	  const weekdays = [
+		"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+	  ];
+  
 	  const days = {
-		1: "primeiro", 2: "dois", 3: "três", 4: "quatro", 5: "cinco", 6: "seis",
-		7: "sete", 8: "oito", 9: "nove", 10: "dez", 11: "onze", 12: "doze", 
-		13: "treze", 14: "quatorze", 15: "quinze", 16: "dezesseis", 17: "dezessete", 
-		18: "dezoito", 19: "dezenove", 20: "vinte", 21: "vinte e um", 
-		22: "vinte e dois", 23: "vinte e três", 24: "vinte e quatro", 25: "vinte e cinco", 
-		26: "vinte e seis", 27: "vinte e sete", 28: "vinte e oito", 29: "vinte e nove", 
-		30: "trinta", 31: "trinta e um"
+		1: "first", 2: "second", 3: "third", 4: "fourth", 5: "fifth", 6: "sixth",
+		7: "seventh", 8: "eighth", 9: "ninth", 10: "tenth", 11: "eleventh", 12: "twelfth",
+		13: "thirteenth", 14: "fourteenth", 15: "fifteenth", 16: "sixteenth", 17: "seventeenth",
+		18: "eighteenth", 19: "nineteenth", 20: "twentieth", 21: "twenty-first",
+		22: "twenty-second", 23: "twenty-third", 24: "twenty-fourth", 25: "twenty-fifth",
+		26: "twenty-sixth", 27: "twenty-seventh", 28: "twenty-eighth", 29: "twenty-ninth",
+		30: "thirtieth", 31: "thirty-first"
 	  };
   
 	  const months = [
-		"janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", 
-		"agosto", "setembro", "outubro", "novembro", "dezembro"
+		"January", "February", "March", "April", "May", "June", "July",
+		"August", "September", "October", "November", "December"
 	  ];
   
-	  // Converte o ano em palavras (dois mil e 4)
+	  // Converts the year to words (two thousand and 4)
 	  const yearInWords = this.convertYearToWords(year);
   
-	  return `Hoje é dia ${days[day]} de ${months[month]} de ${yearInWords}`;
+	  return `${weekdays[weekday]} the ${days[day]} of ${months[month]} of ${yearInWords}`;
 	}
   
-	// Função para converter o ano em palavras
+	// Function to convert the year to words
 	convertYearToWords(year) {
 	  const thousands = Math.floor(year / 1000);
 	  const hundreds = Math.floor((year % 1000) / 100);
@@ -60,39 +65,39 @@ window.addEventListener("DOMContentLoaded", () => {
   
 	  const words = [];
   
-	  if (thousands === 2) words.push("dois mil");
-	  // Para o ano 2024, adiciona "vinte e quatro" ao invés de "quatro"
-	  if (hundreds === 0 && tens === 0 && units === 0) return "dois mil"; // para anos exatos como 2000
-	  if (hundreds === 0 && tens === 0) words.push(units === 1 ? "um" : units === 2 ? "dois" : units === 3 ? "três" : units === 4 ? "quatro" : units === 5 ? "cinco" : units === 6 ? "seis" : units === 7 ? "sete" : units === 8 ? "oito" : units === 9 ? "nove" : "");
+	  if (thousands === 2) words.push("two thousand");
+	  // For the year 2024, adds "twenty-four" instead of "four"
+	  if (hundreds === 0 && tens === 0 && units === 0) return "two thousand"; // for exact years like 2000
+	  if (hundreds === 0 && tens === 0) words.push(units === 1 ? "one" : units === 2 ? "two" : units === 3 ? "three" : units === 4 ? "four" : units === 5 ? "five" : units === 6 ? "six" : units === 7 ? "seven" : units === 8 ? "eight" : units === 9 ? "nine" : "");
   
-	  if (tens === 2) words.push("vinte");
-	  else if (tens === 3) words.push("trinta");
+	  if (tens === 2) words.push("twenty");
+	  else if (tens === 3) words.push("thirty");
   
 	  if (tens > 1) {
-		words.push(units === 0 ? "e" : "e " + (units === 1 ? "um" : units === 2 ? "dois" : units === 3 ? "três" : units === 4 ? "quatro" : units === 5 ? "cinco" : units === 6 ? "seis" : units === 7 ? "sete" : units === 8 ? "oito" : units === 9 ? "nove" : ""));
+		words.push(units === 0 ? "and" : "and " + (units === 1 ? "one" : units === 2 ? "two" : units === 3 ? "three" : units === 4 ? "four" : units === 5 ? "five" : units === 6 ? "six" : units === 7 ? "seven" : units === 8 ? "eight" : units === 9 ? "nine" : ""));
 	  }
   
 	  return words.join(" ");
 	}
   
-	// Atualiza a data exibida
+	// Updates the displayed date
 	dateUpdate() {
-	  const flyInClass = "clock__word--fade-fly-in"; // Classe de animação para as palavras
-	  const date = this.dateInWords.split(" "); // Divide a data em palavras
+	  const flyInClass = "clock__word--fade-fly-in"; // Animation class for the words
+	  const date = this.dateInWords.split(" "); // Splits the date into words
   
-	  const dateWordEls = Array.from(this.el.querySelectorAll(".clock__word")); // Seleciona as palavras
+	  const dateWordEls = Array.from(this.el.querySelectorAll(".clock__word")); // Selects the words
   
-	  // Atualiza cada palavra
+	  // Updates each word
 	  for (let i = 0; i < dateWordEls.length; ++i) {
 		const wordEl = dateWordEls[i];
-		wordEl.innerText = date[i] || ""; // Atualiza o texto
-		if (date[i] !== this.date[i]) wordEl.classList.add(flyInClass); // Adiciona animação
-		else wordEl.classList.remove(flyInClass); // Remove animação se não houver alteração
+		wordEl.innerText = date[i] || ""; // Updates the text
+		if (date[i] !== this.date[i]) wordEl.classList.add(flyInClass); // Adds animation
+		else wordEl.classList.remove(flyInClass); // Removes animation if there's no change
 	  }
   
-	  this.date = date; // Armazena a data atual
-	  clearTimeout(this.dateUpdateLoop); // Limpa qualquer atualização anterior
-	  this.dateUpdateLoop = setTimeout(this.dateUpdate.bind(this), 1e4); // Atualiza a data a cada 10 segundos
+	  this.date = date; // Stores the current date
+	  clearTimeout(this.dateUpdateLoop); // Clears any previous updates
+	  this.dateUpdateLoop = setTimeout(this.dateUpdate.bind(this), 1e4); // Updates the date every 10 seconds
 	}
   }
   

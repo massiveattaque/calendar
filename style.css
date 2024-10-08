@@ -1,67 +1,35 @@
-/* Reseta estilos básicos como margem, padding e bordas */
-* {
-	border: 0;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+body {
+	font-family: 'DM Sans', sans-serif; /* Font family for the body */
+	background-color: #f0f0f0; /* Light background */
+	color: #333; /* Dark text color */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* Full viewport height */
+	margin: 0; /* Remove default margin */
   }
   
-  /* Variáveis CSS para cores e tempo de transição */
-  :root {
-	--hue: 223; /* Definição de matiz de cor */
-	--bg: #FFFFFF; /* Cor de fundo padrão */
-	--fg: #191919; /* Cor do texto padrão */
-	--primary: hsl(var(--hue), 90%, 50%); /* Cor principal */
-	--trans-dur: 0.3s; /* Duração da transição */
-	/* Tamanho da fonte é responsivo ao tamanho da tela */
-	font-size: calc(20px + (60 - 20) * (100vw - 320px) / (2560 - 320));
-  }
-  
-  /* Estilos básicos do corpo */
-  body {
-	background-color: var(--bg); /* Cor de fundo */
-	color: var(--fg); /* Cor do texto */
-	display: flex; /* Layout flexível */
-	font: 1em/1.5 "DM Sans", sans-serif; /* Fonte e espaçamento */
-	height: 100vh; /* Altura total da tela */
-	transition: background-color var(--trans-dur), color var(--trans-dur); /* Transições suaves */
-  }
-  
-  /* Estilos do contêiner da data */
   .clock {
-	margin: auto;
-	text-align: center;
+	background: white; /* White background for the clock */
+	border-radius: 15px; /* Rounded corners */
+	padding: 20px; /* Padding around the clock */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+	text-align: center; /* Center text */
+	font-size: 2em; /* Increase font size */
   }
   
-  /* Estilos das palavras do relógio */
   .clock__word {
-	display: inline-block;
-	font-weight: 200; /* Peso da fonte leve */
+	display: block; /* Make each word take a full line */
+	transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition for animations */
   }
   
-  /* Oculta palavras vazias */
-  .clock__word:empty {
-	display: none;
-  }
-  
-  /* Palavras em negrito */
-  .clock__word--bold {
-	font-weight: 600;
-  }
-  
-  /* Animação para palavras que aparecem */
   .clock__word--fade-fly-in {
-	animation: fade-fly-in 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+	opacity: 0; /* Start fully transparent */
+	transform: translateY(-20px); /* Move upwards for effect */
   }
   
-  /* Definição da animação */
-  @keyframes fade-fly-in {
-	from {
-	  opacity: 0;
-	  transform: translateY(100%);
-	}
-	to {
-	  opacity: 1;
-	  transform: translateY(0);
-	}
+  .clock__word--fade-fly-in.show {
+	opacity: 1; /* Fade in to visible */
+	transform: translateY(0); /* Move back to original position */
   }
+  
